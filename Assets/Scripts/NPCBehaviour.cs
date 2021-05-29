@@ -7,9 +7,12 @@ public class NPCBehaviour : MonoBehaviour
     [SerializeField] FoodStash foodStash;
     private AnimateController animate;
     private Rigidbody2D rigidbody2D;
+    public Food testFood;
     private void Awake() {
         animate = GetComponent<AnimateController>();
         rigidbody2D = GetComponent<Rigidbody2D>();
+    }
+    private void Start() {
     }
     bool isMoving = false;
     bool animationDirty = false;
@@ -18,44 +21,40 @@ public class NPCBehaviour : MonoBehaviour
     float moveSpeed = 10f;
     private void FixedUpdate() {
         rigidbody2D.velocity = movement * moveSpeed;
-        //rigidbody2D.MovePosition(rigidbody2D.position + movement * moveSpeed * Time.fixedDeltaTime);
     }
     void Update()
     {
         movement.x = PlayerInputController.GetHorizontalMove();
         movement.y = PlayerInputController.GetVerticalMove();
         animate.SetSpeed(rigidbody2D.velocity.sqrMagnitude);
-        animate.SetDirections(movement.y, movement.x);
-
-        /*AnimateDirection directionCache = AnimateDirectionByInput(PlayerInputController.GetHorizontalMove(), PlayerInputController.GetVerticalMove());
-        if(lastDir!=directionCache){
-            animate.SetDirection(directionCache);
-            animationDirty = true;
-            Debug.Log("dir");
-        }
-        if(!isMoving && WannaMove()) {
-            isMoving = true;
-            animate.SetState(AnimateState.Walk);
-            animationDirty = true;
-            Debug.Log("move");
-          } else if(isMoving && !WannaMove()){
-            Debug.Log("stop");
-            isMoving = false;
-            animate.SetState(AnimateState.Walk);
-            animationDirty = true;
-            //animate.SetMoveState(AnimateState.Idle, AnimateDirection.Down);
-        }
-        if(animationDirty) animate.ApplyAnimationChanges();*/
-        
+        animate.SetDirections(movement.y, movement.x);       
+        if(Input.GetKeyDown(KeyCode.Z))
+            foodStash.PushFood(testFood);
+        if(Input.GetKeyDown(KeyCode.X))
+            foodStash.PopFood();
+        if(Input.GetKeyDown(KeyCode.C))
+            DropFood();
+        if(Input.GetKeyDown(KeyCode.V))
+            PickFood();
     }
-    /*private bool WannaMove(){
-        return PlayerInputController.GetHorizontalMove()!=0 || PlayerInputController.GetVerticalMove()!=0;
-    }*/
-    /*private AnimateDirection AnimateDirectionByInput(float horizontal, float vertical){
-        if(Mathf.Abs(horizontal) > Mathf.Abs(vertical)){
-            return horizontal>0 ? AnimateDirection.Right : AnimateDirection.Left;
-        } else{
-            return vertical>0 ? AnimateDirection.Up : AnimateDirection.Down;
-        }
-    }*/
+    [SerializeField] GameObject foodPrefab;
+    private void DropFood(){
+        Food popFood = foodStash.PopFood();
+        if(popFood==null) return;
+        GameObject instance = Instantiate(foodPrefab, transform.position, Quaternion.identity);
+        GroundFood food = instance.GetComponent<GroundFood>();
+        food.food = popFood;
+    }
+    private void PickFood(){
+        GroundFood found = GetClosestFood();
+        if(found==null) return;
+        if(foodStash.PushFood(found.food)) Destroy(found.gameObject);
+    }
+    private GroundFood GetClosestFood(){
+        Collider2D[] colliders = Physics2D.OverlapBoxAll(transform.position, new Vector2(1f, 1.2f), 0, 1<<8);
+        if(colliders.Length<=0) { return null; }
+        Collider2D closestCol = StaticFuncs.GetClosestComponent(colliders, transform.position) as Collider2D;
+        if(closestCol==null) { return null; }
+        return closestCol.GetComponent<GroundFood>();
+    }
 }
