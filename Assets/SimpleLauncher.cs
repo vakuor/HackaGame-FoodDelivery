@@ -8,6 +8,6 @@ public class SimpleLauncher : MonoBehaviour
     NetworkManager manager;
     private void Start() {
         manager = GetComponent<NetworkManager>();
-        manager.StartServer();
+        manager.StartHost();
     }
 }
