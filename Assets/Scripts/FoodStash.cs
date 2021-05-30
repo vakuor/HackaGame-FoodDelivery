@@ -6,16 +6,27 @@ public class FoodStash : MonoBehaviour
 {
     [SerializeField] SpriteRenderer[] sprites;
     Stack<Food> foodStack = new Stack<Food>();
-    [SerializeField] int maxFood = 4;
+    [SerializeField] public int maxFood = 4;
     public bool PushFood(Food food){
-        if(foodStack.Count >= maxFood) return false;
+        if(!CanPushFood()) return false;
         foodStack.Push(food);
-        sprites[foodStack.Count-1].sprite = food.sprite;
+        Debug.Log(foodStack.Count-1);
+        if(foodStack.Count-1>=0 && foodStack.Count-1<sprites.Length)
+            sprites[foodStack.Count-1].sprite = food.sprite;
         return true;
     }
     public Food PopFood(){
         if(foodStack.Count <= 0) return null;
-        sprites[foodStack.Count-1].sprite = null;
+        if(foodStack.Count-1>=0 && foodStack.Count-1<sprites.Length)
+            sprites[foodStack.Count-1].sprite = null;
         return foodStack.Pop();
+    }
+    public bool CanPushFood(){
+        if(foodStack.Count >= maxFood) return false;
+        return true;
+    }
+    public bool CanPopFood(){
+        if(foodStack.Count <= 0) return false;
+        return true;
     }
 }

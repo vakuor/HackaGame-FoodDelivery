@@ -5,7 +5,7 @@ using UnityEngine;
 public static class StaticFuncs
 {
     public static Component GetClosestComponent(Component[] components, Vector2 position){
-
+        if(components.Length<=0) return null;
         float dist = float.MaxValue;
         Component closest = null;
         foreach(Component comp in components){
