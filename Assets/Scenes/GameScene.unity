@@ -1553,6 +1553,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a078062ef7faca4d92b6c104665653b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  userToken: 
   foods:
   - {fileID: 11400000, guid: 3fef001cdf748584f94e43627773f6ab, type: 2}
   - {fileID: 11400000, guid: 2b3de8aa6ac45324d95b25ea111ad23c, type: 2}
@@ -1560,7 +1561,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 1cef0d6d142b8aa448bbc477951cada6, type: 2}
   scoreText: {fileID: 395955415}
   timerText: {fileID: 682097879}
-  time: 60
+  time: 30
   gameOver: {fileID: 4023940}
 --- !u!4 &296718263
 Transform:
