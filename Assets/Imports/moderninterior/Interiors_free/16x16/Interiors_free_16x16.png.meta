@@ -9,6 +9,7 @@ TextureImporter:
     21300008: table_square_big_brown
     21300010: table_square_big_yellow
     21300012: pc_green_solo
+    21300014: chair_backless_lightbrown
   externalObjects: {}
   serializedVersion: 9
   mipmaps:
@@ -230,13 +231,33 @@ TextureImporter:
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
       spriteID: f1522bdbb1da477f0800000000000000
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: chair_backless_lightbrown
+      rect:
+        serializedVersion: 2
+        x: 65
+        y: 913
+        width: 14
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0ce336bc4670ecb42a650365d50e2e2d
       vertices: []
       indices: 
       edges: []

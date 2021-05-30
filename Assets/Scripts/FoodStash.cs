@@ -16,7 +16,7 @@ public class FoodStash : MonoBehaviour
         return true;
     }
     public Food PopFood(){
-        if(foodStack.Count <= 0) return null;
+        if(!CanPopFood()) return null;
         if(foodStack.Count-1>=0 && foodStack.Count-1<sprites.Length)
             sprites[foodStack.Count-1].sprite = null;
         return foodStack.Pop();

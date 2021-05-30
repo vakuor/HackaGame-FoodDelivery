@@ -25,11 +25,12 @@ public class NPCBehaviour : MonoBehaviour
     }
     void Update()
     {
+        if(GameManager.instance.gameOver.active == false) {
         movement.x = PlayerInputController.GetHorizontalMove();
         movement.y = PlayerInputController.GetVerticalMove();
         animate.SetSpeed(rigidbody2D.velocity.sqrMagnitude);
         animate.SetDirections(movement.y, movement.x);       
-        if(Input.GetKeyDown(KeyCode.Z))
+        /*if(Input.GetKeyDown(KeyCode.Z))
             foodStash.PushFood(testFood);
         if(Input.GetKeyDown(KeyCode.X))
             foodStash.PopFood();
@@ -39,11 +40,36 @@ public class NPCBehaviour : MonoBehaviour
             PickFood();
         if(Input.GetKeyDown(KeyCode.B))
             Pick();
+        if(Input.GetKeyDown(KeyCode.G))
+            GiveFood();*/
+        if(Input.GetKeyDown(KeyCode.Q))
+            Pick();
+        if(Input.GetKeyDown(KeyCode.E))
+            if(!GiveFood()) DropFood();
+        } else {
+            movement.x = 0;
+            movement.y = 0;
+        }
     }
     [SerializeField] GameObject foodPrefab;
     private void DropFood(){
         Food popFood = foodStash.PopFood();
         if(popFood==null) return;
+        SpawnGroundFood(foodPrefab, popFood, transform.position);
+        /*GameObject instance = Instantiate(foodPrefab, transform.position, Quaternion.identity);
+        GroundFood food = instance.GetComponent<GroundFood>();
+        food.food = popFood;*/
+    }
+    private bool GiveFood(){
+        PCPNCBehaviour pc = GetClosest<PCPNCBehaviour>();
+        if(pc==null) return false;
+        if(!pc.CanTakeFood()) return false;
+        Food popFood = foodStash.PopFood();
+        if(popFood==null) return false;
+        
+        return pc.TakeFood(popFood);
+    }
+    private void SpawnGroundFood(GameObject foodPrefab, Food popFood, Vector2 position){
         GameObject instance = Instantiate(foodPrefab, transform.position, Quaternion.identity);
         GroundFood food = instance.GetComponent<GroundFood>();
         food.food = popFood;
@@ -78,7 +104,7 @@ public class NPCBehaviour : MonoBehaviour
         }
         T comp = StaticFuncs.GetClosestComponent(comps.ToArray(), transform.position) as T;
         if(comp!=null) {
-            Debug.Log(comp.name);
+            //Debug.Log(comp.name);
         }
         return comp;
     }

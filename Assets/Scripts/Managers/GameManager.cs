@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Events;
+using TMPro;
 
 public class GameManager : MonoBehaviour
 {
@@ -22,6 +23,44 @@ public class GameManager : MonoBehaviour
     }
 
     #endregion
+
+    private void Start() {
+        if(gameOver!=null) {gameOver.SetActive(false);
+        UpdateTime();}
+    }
+    int score = 0;
+    [SerializeField] public Food[] foods;
+    [SerializeField] public TextMeshProUGUI scoreText;
+    [SerializeField] public TextMeshProUGUI timerText;
+    [SerializeField] public int time = 30;
+    [SerializeField] public GameObject gameOver;
+    public void AddScore(int score){
+        if(this.score+score < 0) this.score = 0;
+        else
+            this.score += score;
+        Debug.Log("NewScore: " + this.score);
+        UpdateScore();
+    }
+    public void UpdateScore(){
+        scoreText.text = "Score: " + score;
+    }
+    public void UpdateTime(){
+        Debug.Log("Update");
+        if(timerText==null) return;
+        timerText.text = "Time left: " + time;
+        time--;
+        if(time>0) Invoke("UpdateTime", 1f);
+        else {
+            timerText.text = "Time left: " + time;
+            GameOver();
+        }
+    }
+    public void GameOver(){
+        gameOver.SetActive(true);
+    }
+    public void LoadScene(int scene){
+        SceneManager.LoadScene(scene);
+    }
 
     // #region Loader Init
     // GameLoader loader;
