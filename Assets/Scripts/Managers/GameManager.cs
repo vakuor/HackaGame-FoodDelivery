@@ -30,21 +30,18 @@ public class GameManager : MonoBehaviour
     #endregion
     [SerializeField] private string userToken = "";
     private void Start() {
-        if(gameOver!=null) {gameOver.SetActive(false);
-        UpdateTime();
-        if(userToken=="")
-            userToken = GetString("user");
+        if(gameOver!=null) {
+            gameOver.SetActive(false);
+            UpdateTime();
+        /*if(userToken=="")
+            userToken = GetString("user");*/
         }
-            Debug.Log(userToken);
+            /*Debug.Log(userToken);
             int ind = userToken.IndexOf("\"access\":\"");
             Debug.Log(ind+10);
             Debug.Log(userToken.Length-ind);
-            //Debug.LogError(userToken.Substring(ind+10, userToken.LastIndexOf("\"")-ind-10));
-            // userToken = /*JsonUtility.FromJson<Models.Access>(*/JsonUtility.FromJson<Models.Token>(userToken)
-            // .access
-            // .access/*).access*/;
             userToken = userToken.Substring(ind+10, userToken.LastIndexOf("\"")-ind-10);
-            Debug.Log("accesstoken: " + userToken);
+            Debug.Log("accesstoken: " + userToken);*/
     }
     public static string GetString(string key) {
       Debug.Log(string.Format("Jammer.PlayerPrefs.GetString(key: {0})", key));
